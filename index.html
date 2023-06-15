@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  
+    <title>Expense tracker</title>
+</head>
+<body>
+ <div class="container">
+    <h3>Expense Tracker</h3>
+<form action="" id="addform">
+    <div class="mb-3">
+<label for="expense"class="form-label"  >Choose expense amount:</label>
+<input type="number" id="expense" placeholder="enter your expense" class="form-control"></div>
+<div class="mb-3">
+<label for="description"   class="form-label" >choose description:</label>
+<input type="text" id="description" placeholder="enter description" class="form-control" ></div>
+<div class="mb-3"><label for="mySelect" class="form-label"  >choose a category</label>
+<!-- <input type="phone" id="phone"placeholder="enter your Phone number"  > -->
+<select id="mySelect" class="form-select form-select" >
+  <option>vaccation</option>
+  <option>party </option>
+  <option>petrol</option>
+  <option>snacks</option>
+</select>
+<!-- <input type="submit" value="Add expense"> -->
+<button class="btn btn-secondary">Add expense</button>
+ </div>
+</form>
+<div class="mb-3 form-control gap-2">
+<ul id="ullist" ></ul>
+</div>
+</div>   
+<script>
+const form=document.getElementById('addform');
+const ul=document.getElementById('ullist');
+
+
+
+
+// window.addEventListener('DOMContentLoaded', () => {
+//   for (let i = 0; i < localStorage.length; i++) {
+//     const key = localStorage.key(i);
+//     const expensekey = JSON.parse(localStorage.getItem(key));
+    
+//         console.log(expensekey);
+//         const ul=document.getElementById('ullist');
+//         var list=document.createElement('li');
+//         // list.className="list-group-item";
+
+// //         var expenseval=document.getElementById('expense').value;
+// // var description=document.getElementById('description').value;
+// // var mydropSelect =document.getElementById('mySelect').value;
+
+// list.appendChild(document.createTextNode(expensekey.expense+' - '));
+// list.appendChild(document.createTextNode(expensekey.description));
+// list.appendChild(document.createTextNode(' - '+expensekey.mydropSelect));
+
+// var btn=document.createElement('button');
+// btn.appendChild(document.createTextNode('delete'));
+// list.appendChild(btn);
+// btn.className='delete btn btn-danger btn-sm ';
+// var edit=document.createElement('button');
+// edit.appendChild(document.createTextNode('edit'));
+// list.appendChild(edit);
+// edit.className='edit btn btn-primary btn-sm ';
+
+// // var div=document.createElement('div');
+// // div.appendChild(btn);
+// // div.appendChild(edit);
+// // div.className="btn-group";
+
+
+// ul.appendChild(list);
+
+
+
+    
+//   }
+
+
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+form.addEventListener('submit',function (e){
+    e.preventDefault(); 
+
+
+    var expense=document.getElementById('expense').value;
+var description=document.getElementById('description').value;
+var mydropSelect =document.getElementById('mySelect').value;
+
+
+let objec={
+    expense:expense,
+    description:description,
+    mydropSelect:mydropSelect
+};
+
+
+let objec_ser=JSON.stringify(objec);
+localStorage.setItem(expense,objec_ser);
+// console.log(objec_ser);
+console.log(localStorage);
+
+
+
+
+var list=document.createElement('li');
+// list.className="list-group-item";
+list.appendChild(document.createTextNode(expense+' - '));
+list.appendChild(document.createTextNode(description));
+list.appendChild(document.createTextNode(' - '+mydropSelect));
+list.setAttribute('data-expense',expense);
+
+var btn=document.createElement('button');
+btn.appendChild(document.createTextNode('delete'));
+list.appendChild(btn);
+btn.className='delete btn btn-danger btn-sm ';
+var edit=document.createElement('button');
+edit.appendChild(document.createTextNode('edit'));
+list.appendChild(edit);
+edit.className='edit btn btn-primary btn-sm ';
+
+ul.appendChild(list);
+
+
+});
+
+ul.addEventListener('click',removeitem);
+
+function removeitem(e){
+
+    if(e.target.classList.contains('delete'))  {
+    var li=e.target.parentElement;
+    ul.removeChild(li);
+
+    var delexpense=li.getAttribute('data-expense') ;
+console.log(delexpense);
+localStorage.removeItem(delexpense);
+
+  }
+
+  else if(e.target.classList.contains('edit')){
+
+    var li=e.target.parentElement;
+
+    var delexpense=li.getAttribute('data-expense') ;
+    var obj=JSON.parse(localStorage.getItem(delexpense));
+    console.log(obj);
+     this.expense=obj.expense;
+     description=obj.description;
+     mydropSelect=obj.mydropSelect;
+    console.log(expense);
+
+    var expense1=document.getElementById('expense');
+var description1=document.getElementById('description');
+var mydropSelect1 =document.getElementById('mySelect');
+expense1.value=obj.expense;
+description1.value=obj.description;
+mydropSelect1.value=obj.mydropSelect;
+
+
+localStorage.removeItem(delexpense);
+ul.removeChild(li);
+
+  }
+
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
